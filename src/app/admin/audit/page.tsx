@@ -7,7 +7,7 @@ interface AuditEntry {
   targetUserId: string;
   action: string;
   timestamp: string;
-  details: Record<string, any>;
+  details: Record<string, unknown>;
 }
 
 export default function AuditLogPage() {

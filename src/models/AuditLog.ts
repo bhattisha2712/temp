@@ -9,7 +9,7 @@ export interface IAuditLog {
   details?: {
     previousRole?: string;
     newRole?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 

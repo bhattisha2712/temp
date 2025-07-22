@@ -1,6 +1,8 @@
 // Email service configuration for production
 // This file contains email service integrations for sending real emails
 
+import nodemailer from 'nodemailer';
+
 interface EmailConfig {
   service: 'console' | 'sendgrid' | 'resend' | 'nodemailer';
   apiKey?: string;
@@ -16,9 +18,8 @@ interface EmailConfig {
   };
 }
 
-// Email configuration - add your preferred service
 const emailConfig: EmailConfig = {
-  service: process.env.EMAIL_SERVICE as any || 'console',
+  service: process.env.EMAIL_SERVICE as unknown as EmailConfig['service'] || 'console',
   apiKey: process.env.EMAIL_API_KEY,
   from: process.env.EMAIL_FROM || 'noreply@yourapp.com',
   smtpConfig: {
@@ -39,98 +40,18 @@ export interface EmailOptions {
   text?: string;
 }
 
-export async function sendEmail({ to, subject, html, text }: EmailOptions): Promise<boolean> {
-  try {
-    switch (emailConfig.service) {
-      case 'console':
-        // Development mode - just log the email
-        console.log('\n=== EMAIL (Development Mode) ===');
-        console.log(`To: ${to}`);
-        console.log(`Subject: ${subject}`);
-        console.log(`Content: ${text || html}`);
-        console.log('================================\n');
-        return true;
-
-      case 'sendgrid':
-        return await sendWithSendGrid({ to, subject, html, text });
-
-      case 'resend':
-        return await sendWithResend({ to, subject, html, text });
-
-      case 'nodemailer':
-        return await sendWithNodemailer({ to, subject, html, text });
-
-      default:
-        console.error('Unknown email service:', emailConfig.service);
-        return false;
-    }
-  } catch (error) {
-    console.error('Email sending failed:', error);
-    return false;
-  }
-}
-
-// SendGrid implementation
-async function sendWithSendGrid(options: EmailOptions): Promise<boolean> {
-  try {
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(emailConfig.apiKey);
-
-    const msg = {
-      to: options.to,
-      from: emailConfig.from,
-      subject: options.subject,
-      text: options.text,
-      html: options.html,
-    };
-
-    await sgMail.send(msg);
-    console.log('Email sent successfully via SendGrid');
-    return true;
-  } catch (error) {
-    console.error('SendGrid error:', error);
-    return false;
-  }
-}
-
-// Resend implementation
-async function sendWithResend(options: EmailOptions): Promise<boolean> {
-  try {
-    const { Resend } = require('resend');
-    const resend = new Resend(emailConfig.apiKey);
-
-    await resend.emails.send({
-      from: emailConfig.from,
-      to: options.to,
-      subject: options.subject,
-      text: options.text,
-      html: options.html,
-    });
-
-    console.log('Email sent successfully via Resend');
-    return true;
-  } catch (error) {
-    console.error('Resend error:', error);
-    return false;
-  }
-}
-
 // Nodemailer implementation (SMTP)
 async function sendWithNodemailer(options: EmailOptions): Promise<boolean> {
   try {
-    const nodemailer = require('nodemailer');
-
     const transporter = nodemailer.createTransport(emailConfig.smtpConfig);
-
     await transporter.sendMail({
-      from: emailConfig.from,
+      from: emailConfig.from || 'noreply@yourapp.com',
       to: options.to,
       subject: options.subject,
-      text: options.text,
-      html: options.html,
+      text: options.text || '',
+      html: options.html || '',
     });
-
-    console.log('Email sent successfully via Nodemailer');
+    console.log('Email sent successfully via SMTP');
     return true;
   } catch (error) {
     console.error('Nodemailer error:', error);

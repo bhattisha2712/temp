@@ -5,12 +5,12 @@ import { useState } from "react";
 
 export default function RBACTestPage() {
   const { data: session } = useSession();
-  const [testResults, setTestResults] = useState<Record<string, any>>({});
+  const [testResults, setTestResults] = useState<Record<string, unknown>>({});
   const [testing, setTesting] = useState(false);
 
   const runRBACTests = async () => {
     setTesting(true);
-    const results: Record<string, any> = {};
+    const results: Record<string, unknown> = {};
 
     // Test 1: Current user role
     results.currentRole = session?.user?.role || "not logged in";

@@ -1,17 +1,15 @@
 import { NextResponse } from "next/server";
+import { MongoClient } from "mongodb";
 
 export async function GET() {
   // Try a simpler local MongoDB connection for testing
   const localUri = "mongodb://localhost:27017/fullstack-app";
   
   try {
-    const { MongoClient } = require('mongodb');
     const client = new MongoClient(localUri);
-    
     await client.connect();
     const result = await client.db().admin().ping();
     await client.close();
-    
     return NextResponse.json({
       status: "Success",
       message: "Local MongoDB connection successful",

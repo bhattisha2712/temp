@@ -4,7 +4,7 @@ interface EmailNotificationData {
   actorEmail: string;
   targetName?: string;
   targetEmail?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   timestamp: Date;
 }
 
@@ -12,7 +12,7 @@ interface SlackNotificationData {
   action: string;
   actorName: string;
   targetName?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
   timestamp: Date;
 }
 

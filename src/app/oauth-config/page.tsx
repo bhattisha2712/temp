@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function OAuth2ConfigPage() {
-  const [config, setConfig] = useState<any>(null);
+  const [config, setConfig] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
