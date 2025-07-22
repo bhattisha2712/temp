@@ -1,11 +1,12 @@
-import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  webpack(config) {
+import path from "path";
+
+const nextConfig = {
+  // ...existing config options...
+  webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      '@': require('path').resolve(__dirname, 'src'),
+      "@": path.resolve(__dirname, "src"),
     };
     return config;
   },
