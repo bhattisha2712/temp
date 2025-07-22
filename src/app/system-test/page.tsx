@@ -15,7 +15,7 @@ interface TestResult {
   name: string;
   status: "pass" | "fail" | "pending";
   message: string;
-  details?: unknown;
+  details?: string | object;
 }
 
 export default function SystemTestPage() {
@@ -70,7 +70,7 @@ export default function SystemTestPage() {
         name: "Database Connection",
         status: "fail",
         message: "Database test failed",
-        details: error
+        details: typeof error === 'string' ? error : JSON.stringify(error)
       });
     }
 
@@ -99,7 +99,7 @@ export default function SystemTestPage() {
         name: "Admin API Access",
         status: "fail",
         message: "Admin API request failed",
-        details: error
+        details: typeof error === 'string' ? error : JSON.stringify(error)
       });
     }
 
@@ -122,7 +122,7 @@ export default function SystemTestPage() {
         name: "Email System",
         status: "fail",
         message: "Email test failed",
-        details: error
+        details: typeof error === 'string' ? error : JSON.stringify(error)
       });
     }
 
@@ -141,7 +141,7 @@ export default function SystemTestPage() {
         name: "Session Validation",
         status: "fail",
         message: "Session validation failed",
-        details: error
+        details: typeof error === 'string' ? error : JSON.stringify(error)
       });
     }
 
@@ -159,7 +159,7 @@ export default function SystemTestPage() {
         name: "Middleware Protection",
         status: "fail",
         message: "Middleware test failed",
-        details: error
+        details: typeof error === 'string' ? error : JSON.stringify(error)
       });
     }
 

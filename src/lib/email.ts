@@ -41,7 +41,7 @@ export interface EmailOptions {
 }
 
 // Nodemailer implementation (SMTP)
-async function sendWithNodemailer(options: EmailOptions): Promise<boolean> {
+export async function sendWithNodemailer(options: EmailOptions): Promise<boolean> {
   try {
     const transporter = nodemailer.createTransport(emailConfig.smtpConfig);
     await transporter.sendMail({
@@ -58,6 +58,9 @@ async function sendWithNodemailer(options: EmailOptions): Promise<boolean> {
     return false;
   }
 }
+
+// Main sendEmail export (uses Nodemailer for now)
+export const sendEmail = sendWithNodemailer;
 
 // Email templates
 export function createPasswordResetEmail(resetLink: string, userEmail: string): EmailOptions {

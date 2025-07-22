@@ -3,9 +3,27 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
+export interface AdminAPIAccessResult {
+  status: number | string;
+  accessible: boolean;
+  message: string;
+}
+
+export interface AdminRouteCheckResult {
+  shouldAccess: boolean;
+  message: string;
+}
+
+export interface RBACResults {
+  currentRole: string;
+  currentUser: string;
+  adminAPIAccess: AdminAPIAccessResult;
+  adminRouteCheck: AdminRouteCheckResult;
+}
+
 export default function RBACTestPage() {
   const { data: session } = useSession();
-  const [testResults, setTestResults] = useState<Record<string, unknown>>({});
+  const [testResults, setTestResults] = useState<Partial<RBACResults>>({});
   const [testing, setTesting] = useState(false);
 
   const runRBACTests = async () => {
@@ -95,21 +113,21 @@ export default function RBACTestPage() {
           
           <TestCard title="User Information">
             <div className="space-y-2">
-              <p><strong>Role:</strong> {testResults.currentRole}</p>
-              <p><strong>Email:</strong> {testResults.currentUser}</p>
+              <p><strong>Role:</strong> {String(testResults.currentRole)}</p>
+              <p><strong>Email:</strong> {String(testResults.currentUser)}</p>
             </div>
           </TestCard>
 
           <TestCard title="Admin API Access Test">
             <div className="space-y-2">
-              <p><strong>HTTP Status:</strong> {testResults.adminAPIAccess?.status}</p>
-              <p><strong>Result:</strong> {testResults.adminAPIAccess?.message}</p>
+              <p><strong>HTTP Status:</strong> {String(testResults.adminAPIAccess?.status ?? '')}</p>
+              <p><strong>Result:</strong> {String(testResults.adminAPIAccess?.message ?? '')}</p>
               <div className={`p-3 rounded-lg ${
-                testResults.adminAPIAccess?.accessible 
+                Boolean(testResults.adminAPIAccess?.accessible)
                   ? "bg-green-50 text-green-800" 
                   : "bg-red-50 text-red-800"
               }`}>
-                {testResults.adminAPIAccess?.accessible 
+                {Boolean(testResults.adminAPIAccess?.accessible)
                   ? "✅ API access granted (you have admin permissions)" 
                   : "❌ API access denied (you don't have admin permissions)"}
               </div>
@@ -118,7 +136,7 @@ export default function RBACTestPage() {
 
           <TestCard title="Route Access Validation">
             <div className="space-y-2">
-              <p>{testResults.adminRouteCheck?.message}</p>
+              <p>{String(testResults.adminRouteCheck?.message ?? '')}</p>
               <div className="mt-4 space-y-2">
                 <a 
                   href="/admin" 
