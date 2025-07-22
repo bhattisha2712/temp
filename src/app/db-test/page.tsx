@@ -1,10 +1,18 @@
 "use client";
 
+
 import { useEffect, useState } from "react";
 
+interface DatabaseStatus {
+  status?: string;
+  message?: string;
+  timestamp?: string;
+  error?: string;
+}
+
 export default function DatabaseTestPage() {
-  const [dbStatus, setDbStatus] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [dbStatus, setDbStatus] = useState<DatabaseStatus | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch("/api/db-test")

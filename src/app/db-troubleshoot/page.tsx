@@ -1,10 +1,30 @@
 "use client";
 
+
 import { useEffect, useState } from "react";
 
+interface AtlasConnectionDetails {
+  hostname?: string;
+  port?: number;
+  username?: string;
+  hasPassword?: boolean;
+  database?: string;
+  protocol?: string;
+}
+
+interface AtlasConfig {
+  connectionDetails?: AtlasConnectionDetails;
+}
+
+interface LocalTest {
+  status?: string;
+  message?: string;
+  error?: string;
+}
+
 export default function DatabaseTroubleshootPage() {
-  const [atlasConfig, setAtlasConfig] = useState<any>(null);
-  const [localTest, setLocalTest] = useState<any>(null);
+  const [atlasConfig, setAtlasConfig] = useState<AtlasConfig | null>(null);
+  const [localTest, setLocalTest] = useState<LocalTest | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
