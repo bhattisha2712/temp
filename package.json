@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",
-    "@types/nodemailer": "^6.4.17",
     "autoprefixer": "^10.4.21",
     "bcryptjs": "^3.0.2",
     "mongodb": "^6.17.0",
@@ -26,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
