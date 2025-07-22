@@ -24,11 +24,7 @@ export class EmailNotificationService {
       // For now, we'll log and could integrate with services like SendGrid, Mailgun, etc.
       console.log('📧 EMAIL NOTIFICATION SENT:');
       console.log('Subject:', `🚨 High-Risk Admin Action: ${data.action}`);
-<<<<<<< HEAD
       console.log('To:', process.env.ADMIN_ALERT_EMAIL || 'admin@yourcompany.com');
-=======
-      console.log('To:', process.env.ADMIN_ALERT_EMAIL || 'admin@yourcompany.com');
->>>>>>> a323824 (🚀 Ready for Production Deployment)
       console.log('Content:', this.generateEmailContent(data));
       
       // Example SendGrid integration (commented out - requires API key)
@@ -41,15 +37,9 @@ export class EmailNotificationService {
         },
         body: JSON.stringify({
           personalizations: [{
-<<<<<<< HEAD
-            to: [{ email: process.env.ADMIN_ALERT_EMAIL }]
-          }],
-          from: { email: process.env.FROM_EMAIL },
-=======
             to: [{ email: process.env.ADMIN_ALERT_EMAIL || 'admin@yourcompany.com' }]
           }],
           from: { email: process.env.FROM_EMAIL || 'noreply@yourcompany.com' },
->>>>>>> a323824 (🚀 Ready for Production Deployment)
           subject: `🚨 High-Risk Admin Action: ${data.action}`,
           content: [{
             type: 'text/html',
